@@ -1,0 +1,38 @@
+// GỢI Ý: file này chỉ là khung. Cách chắc ăn nhất là lấy build.gradle, gradle.properties,
+// settings.gradle và gradle wrapper từ meteor-addon-template (nhánh 1.21.11) rồi giữ
+// nguyên thư mục src/ của gói này.
+plugins {
+    id "fabric-loom" version "1.15.5"
+}
+
+base { archivesName = project.archives_base_name }
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+    maven { name = "meteor-maven"; url = "https://maven.meteordev.org/releases" }
+    maven { name = "meteor-maven-snapshots"; url = "https://maven.meteordev.org/snapshots" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"   // CHỈNH theo template
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "meteordevelopment:meteor-client:${project.meteor_version}"
+
+    // Baritone API: bỏ file jar vào thư mục libs/ rồi sửa tên file cho đúng
+    modImplementation files("libs/baritone-api-fabric.jar")
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") { expand "version": inputs.properties.version }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach { options.release = 21 }

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "autobuild",
+  "version": "${version}",
+  "name": "AutoBuild",
+  "description": "Auto build theo schematic theo schematic (.schem, .nbt), kèm sneak/rotation kiểu Easy Redstone.",
+  "authors": ["you"],
+  "license": "CC0-1.0",
+  "environment": "client",
+  "entrypoints": {
+    "meteor": ["com.example.addon.AutoBuildAddon"]
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": "1.21.11",
+    "meteor-client": "*"
+  }
+}
