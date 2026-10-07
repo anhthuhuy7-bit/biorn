@@ -17,10 +17,17 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 9.8.0   # nếu báo không có bản này, đổi sang bản template dùng
+          gradle-version: 9.8.0
 
       - name: Build
-        run: gradle build --stacktrace
+        shell: bash
+        run: gradle build --console=plain 2>&1 | tee build.log
+
+      - name: Show error summary
+        if: failure()
+        run: |
+          grep -n -B2 -A15 "What went wrong" build.log || true
+          grep -n "error:" build.log | head -40 || true
 
       - uses: actions/upload-artifact@v4
         with:
